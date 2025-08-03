@@ -1,0 +1,114 @@
+{% load static i18n %}
+
+<div class="main-nav">
+    <div class="logo-box">
+        <a href="/static" class="logo-dark">
+               <span class="logo-sm">
+                    <img src="{% static '/images/logo-sm.png' %}" alt="logo sm">
+               </span>
+            <span class="logo-lg">
+                    <img src="{% static '/images/logo-dark.png' %}" alt="logo dark">
+                    <span class="fs-3 align-middle">Aronee</span>
+               </span>
+        </a>
+
+        <a href="/static" class="logo-light">
+               <span class="logo-sm">
+                    <img src="{% static '/images/logo-sm.png' %}" alt="logo sm">
+               </span>
+            <span class="logo-lg">
+{#                    <img src="{% static '/images/logo-light.png' %}" alt="logo light">#}
+                    <span class="fs-3 align-middle">Taxi Management</span>
+               </span>
+        </a>
+    </div>
+
+    <button type="button" class="button-sm-hover" aria-label="Show Full Sidebar">
+        <i class="ri-menu-2-line fs-24 button-sm-hover-icon"></i>
+    </button>
+
+    <div class="scrollbar" data-simplebar>
+        <ul class="navbar-nav" id="navbar-nav">
+            <li class="menu-title">Menu</li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'dashboard' %}">
+                    <span class="nav-icon"><i class="ri-dashboard-2-line"></i></span>
+                    <span class="nav-text"> Dashboard </span>
+                </a>
+            </li>
+
+            <li class="menu-title">Management</li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'customer_list' %}"> <span class="nav-icon"><i
+                        class="ri-group-line"></i></span>
+                    <span class="nav-text"> Customers </span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'vendor_list' %}"> <span class="nav-icon"><i
+                        class="ri-store-2-line"></i></span>
+                    <span class="nav-text"> Vendors </span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'vehicle_list' %}">
+                    <span class="nav-icon"><i class="ri-taxi-line"></i></span>
+                    <span class="nav-text"> Vehicles </span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'package_list' %}">
+                    <span class="nav-icon"><i class="ri-price-tag-3-line"></i></span>
+                    <span class="nav-text"> Packages </span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'trip_list' %}"> <span class="nav-icon"><i
+                        class="ri-roadster-line"></i></span>
+                    <span class="nav-text"> Trips </span>
+                </a>
+            </li>
+
+            <li class="menu-title">Reports</li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'calendar' %}"> <span class="nav-icon"><i
+                        class="ri-calendar-event-line"></i></span>
+                    <span class="nav-text"> Calendar </span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'trip_report' %}">
+                    <span class="nav-icon"><i class="ri-file-chart-line"></i></span>
+                    <span class="nav-text"> Trip Report </span>
+                </a>
+            </li>
+            {% if perms.auth.add_user %}
+                <li class="menu-title">Settings</li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'user_list' %}">
+                        <span class="nav-icon"><i class="ri-user-settings-line"></i></span>
+                        <span class="nav-text"> User Management </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'create_staff' %}">
+                        <span class="nav-icon"><i class="ri-user-add-line"></i></span>
+                        <span class="nav-text"> Create Staff </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'site_settings' %}">
+                        <span class="nav-icon"><i class="ri-settings-3-line"></i></span>
+                        <span class="nav-text"> Site Settings </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'action_logs' %}">
+                        <span class="nav-icon"><i class="ri-history-line"></i></span>
+                        <span class="nav-text"> Action Logs </span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
