@@ -1,7 +1,12 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Count, F, DecimalField
 from datetime import datetime
+from weasyprint import HTML
+
+from django.template.loader import render_to_string
+
 from trips.models import Trip
 from django.shortcuts import get_object_or_404
 from decimal import Decimal
@@ -72,3 +77,27 @@ def generate_bill_view(request, pk):
         'title': f'Invoice for Trip #{trip.id}'
     }
     return render(request, 'reports/invoice.html', context)
+
+
+@login_required
+def generate_customer_pdf(request, pk):
+    trip = get_object_or_404(Trip.objects.select_related('customer', 'vehicle'), pk=pk)
+    html_string = render_to_string('reports/pdfs/customer_confirmation.html', {'trip': trip})
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="customer_confirmation_{trip.id}.pdf"'
+
+    HTML(string=html_string).write_pdf(response)
+    return response
+
+
+@login_required
+def generate_vendor_pdf(request, pk):
+    trip = get_object_or_404(Trip.objects.select_related('customer', 'vehicle', 'vehicle__vendor'), pk=pk)
+    html_string = render_to_string('reports/pdfs/vendor_confirmation.html', {'trip': trip})
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="vendor_order_{trip.id}.pdf"'
+
+    HTML(string=html_string).write_pdf(response)
+    return response
