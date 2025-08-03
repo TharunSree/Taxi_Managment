@@ -83,6 +83,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Taxi_Managment.wsgi.application'
 
+homepage_url = '/'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 homepage_url = '/'
