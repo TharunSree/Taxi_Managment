@@ -1,0 +1,270 @@
+{% extends "vertical.html" %}
+{% load static i18n %}
+
+{% block title %}{{ title }}{% endblock title %}
+
+{% block extra_css %}
+    <link href="{% static 'vendor/fullcalendar/main.min.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock extra_css %}
+
+{% block page_content %}
+    {% include "partials/page-title.html" with title="Aronee" subtitle="Dashboard" %}
+
+    <div class="row">
+        <div class="col-md-6 col-xl-3">
+            <a href="{% url 'vendor_list' %}" class="text-decoration-none">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center justify-content-between">
+                            <div class="col-6">
+                                <div class="avatar-md bg-light bg-opacity-50 rounded">
+                                    <iconify-icon icon="solar:buildings-2-broken"
+                                                  class="fs-32 text-primary avatar-title"></iconify-icon>
+                                </div>
+                                <p class="text-muted mb-2 mt-3">Total Vendors</p>
+                                <h3 class="text-dark fw-bold d-flex align-items-center gap-2 mb-0">{{ total_vendors }}</h3>
+                            </div>
+                            <div class="col-6">
+                                <div id="total_customers" class="apex-charts"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <a href="{% url 'customer_list' %}" class="text-decoration-none">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center justify-content-between">
+                            <div class="col-6">
+                                <div class="avatar-md bg-light bg-opacity-50 rounded">
+                                    <iconify-icon icon="solar:users-group-two-rounded-broken"
+                                                  class="fs-32 text-primary avatar-title"></iconify-icon>
+                                </div>
+                                <p class="text-muted mb-2 mt-3">Total Customers</p>
+                                <h3 class="text-dark fw-bold d-flex align-items-center gap-2 mb-0">{{ total_customers }}</h3>
+                            </div>
+                            <div class="col-6 text-end">
+                                <div id="invoiced_customers" class="apex-charts"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <a href="{% url 'trip_list' %}?status=Upcoming" class="text-decoration-none">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center justify-content-between">
+                            <div class="col-5">
+                                <div class="avatar-md bg-light bg-opacity-50 rounded">
+                                    <iconify-icon icon="solar:calendar-search-broken"
+                                                  class="fs-32 text-primary avatar-title"></iconify-icon>
+                                </div>
+                                <p class="text-muted mb-2 mt-3">Upcoming Trips</p>
+                                <h3 class="text-dark fw-bold d-flex align-items-center gap-2 mb-0">{{ upcoming_trips_count }}</h3>
+                            </div>
+                            <div class="col-6 text-end">
+                                <div id="new_sale" class="apex-charts"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <a href="{% url 'trip_report' %}" class="text-decoration-none">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center justify-content-between">
+                            <div class="col-5">
+                                <div class="avatar-md bg-light bg-opacity-50 rounded">
+                                    <iconify-icon icon="solar:money-bag-broken"
+                                                  class="fs-32 text-primary avatar-title"></iconify-icon>
+                                </div>
+                                <p class="text-muted mb-2 mt-3">Total Revenue</p>
+                                <h3 class="text-dark fw-bold d-flex align-items-center gap-2 mb-0">
+                                    ₹{{ total_revenue }}</h3>
+                            </div>
+                            <div class="col-6 text-end">
+                                <div id="invoiced_sales" class="apex-charts"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card overflow-hidden">
+                <div class="card-header d-flex justify-content-between align-items-center pb-1">
+                    <div><h4 class="card-title">Trips Analytic</h4></div>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle btn btn-sm btn-outline-light rounded"
+                           data-bs-toggle="dropdown" aria-expanded="false">{{ current_period_display }}</a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <a href="?period=week"
+                               class="dropdown-item {% if current_period == 'week' %}active{% endif %}">Last 7 Days</a>
+                            <a href="?period=month"
+                               class="dropdown-item {% if current_period == 'month' %}active{% endif %}">Last 30
+                                Days</a>
+                            <a href="?period=year"
+                               class="dropdown-item {% if current_period == 'year' %}active{% endif %}">Last 12
+                                Months</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="text-end"><p class="mb-0 fs-18 fw-medium text-dark"><i class="ri-wallet-3-fill"></i>
+                        Revenue ({{ current_period_display }}) : <span
+                                class="text-primary fw-bold">₹{{ period_revenue }}</span></p></div>
+                    <div class="row align-items-top text-center">
+                        <div class="col-lg-12">
+                            <div class="apex-charts mt-2" id="sales_analytic"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Top Rated Vendors</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        {% for vendor in top_vendors %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>
+                        <i class="ri-user-star-line me-2"></i>{{ vendor.name }}
+                    </span>
+                                <span class="badge bg-warning text-dark rounded-pill">
+                        {{ vendor.average_rating|floatformat:1 }} ★ ({{ vendor.num_ratings }} ratings)
+                    </span>
+                            </li>
+                        {% empty %}
+                            <li class="list-group-item">No ratings have been submitted yet.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div><h4 class="card-title">Latest Trips</h4></div>
+                    <a href="{% url 'trip_list' %}" class="btn btn-sm btn-primary">View All</a>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table align-middle text-nowrap table-hover table-centered mb-0">
+                            <thead class="bg-light-subtle">
+                            <tr>
+                                <th>Trip ID</th>
+                                <th>Customer Name</th>
+                                <th>Vehicle</th>
+                                <th>Trip Date</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for trip in latest_trips %}
+                                <tr>
+                                    <td><a href="{% url 'trip_update' pk=trip.pk %}"
+                                           class="text-dark fw-medium">#{{ trip.id }}</a></td>
+                                    <td>{{ trip.customer.name }}</td>
+                                    <td>{{ trip.vehicle.number }}</td>
+                                    <td>{{ trip.trip_date|date:"d M Y" }}</td>
+                                    <td>₹{{ trip.total_price|floatformat:2 }}</td>
+                                    <td>
+                                        {% if trip.status == 'Completed' %}
+                                            <span class="badge bg-success-subtle text-success">{{ trip.get_status_display }}</span>
+                                        {% elif trip.status == 'Upcoming' %}
+                                            <span class="badge bg-info-subtle text-info">{{ trip.get_status_display }}</span>
+                                        {% elif trip.status == 'On-going' %}
+                                            <span class="badge bg-warning-subtle text-warning">{{ trip.get_status_display }}</span>
+                                        {% else %}
+                                            <span class="badge bg-danger-subtle text-danger">{{ trip.get_status_display }}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="6" class="text-center py-4">No trips have been created yet.</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_content %}
+
+{% block extra_javascript %}
+    <script src="{% static 'vendor/apexcharts/apexcharts.min.js' %}"></script>
+    <script src="{% static 'vendor/fullcalendar/main.min.js' %}"></script>
+
+    {{ sales_chart_options|json_script:"sales-chart-options" }}
+    {{ ratings_chart_options|json_script:"ratings-chart-options" }}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Trips Analytic Chart
+            try {
+                const salesOptionsJson = document.getElementById('sales-chart-options').textContent;
+                const salesOptions = JSON.parse(salesOptionsJson);
+                salesOptions.yaxis = {
+                    labels: {
+                        formatter: function (val) {
+                            return val.toFixed(0);
+                        }
+                    }
+                };
+                var salesChart = new ApexCharts(document.querySelector("#sales_analytic"), salesOptions);
+                salesChart.render();
+            } catch (e) {
+                console.error("Error rendering sales chart:", e);
+            }
+
+            // Calendar
+            try {
+                var calendarEl = document.getElementById('calendar');
+                if (calendarEl) {
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+                        initialView: 'dayGridMonth',
+                        headerToolbar: {
+                            left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,listWeek'
+                        },
+                        events: "{% url 'trip_feed' %}"
+                    });
+                    calendar.render();
+                }
+            } catch (e) {
+                console.error("Error rendering calendar:", e);
+            }
+
+            // Vendor Ratings Chart
+            try {
+                const ratingsOptionsJson = document.getElementById('ratings-chart-options').textContent;
+                const ratingsOptions = JSON.parse(ratingsOptionsJson);
+                ratingsOptions.dataLabels.formatter = function (val) {
+                    return val + " ★"
+                };
+                var ratingsChart = new ApexCharts(document.querySelector("#vendor-ratings-chart"), ratingsOptions);
+                ratingsChart.render();
+            } catch (e) {
+                console.error("Error rendering ratings chart:", e);
+            }
+        });
+    </script>
+{% endblock extra_javascript %}

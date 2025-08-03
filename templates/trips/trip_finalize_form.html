@@ -1,0 +1,95 @@
+{% extends "vertical.html" %}
+
+{% block title %}{{title}}{% endblock title %}
+
+{% block page_content %}
+    {% include "partials/page-title.html" with title="Trips" subtitle=title %}
+
+    <div class="row">
+        <div class="col-xl-9">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Finalize Trip for {{ trip.customer.name }} on {{ trip.trip_date|date:"d M Y" }}</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <p class="mb-1"><strong>Base Price:</strong> <span id="base-price" data-price="{{ trip.total_price }}">₹{{ trip.total_price|floatformat:2 }}</span></p>
+                            <p class="mb-1"><strong>Advance Paid:</strong> <span id="advance-paid" data-advance="{{ trip.advance_paid }}">₹{{ trip.advance_paid|floatformat:2 }}</span></p>
+                            <p class="mb-1"><strong>Extra KM Rate:</strong> <span data-km-rate="{{ extra_km_rate }}">₹{{ extra_km_rate|floatformat:2 }} / km</span></p>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            <h4>Initial Remaining: ₹{{ trip.remaining_amount|floatformat:2 }}</h4>
+                            <h3 class="text-primary">New Grand Total: <span id="grand-total">₹{{ trip.total_price|floatformat:2 }}</span></h3>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="mb-3">
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% if field.errors %}<div class="invalid-feedback d-block">{{ field.errors.as_text }}</div>{% endif %}
+                        </div>
+                        {% endfor %}
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-success">Complete & Save Trip</button>
+                            <a href="{% url 'trip_list' %}" class="btn btn-light">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_content %}
+
+{% block extra_javascript %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Input field for extra distance
+    const additionalDistInput = document.querySelector('#id_additional_distance');
+
+    // **NEW**: Get the input field for the final payment
+    const finalPaymentInput = document.querySelector('#id_final_payment_amount');
+
+    // Get base values from the DOM
+    const basePriceEl = document.getElementById('base-price');
+    const advancePaidEl = document.getElementById('advance-paid');
+    const kmRateEl = document.querySelector('[data-km-rate]');
+
+    const basePrice = parseFloat(basePriceEl.dataset.price);
+    const advancePaid = parseFloat(advancePaidEl.dataset.advance || 0);
+    const kmRate = parseFloat(kmRateEl.dataset.kmRate);
+
+    // Get display elements
+    const grandTotalEl = document.getElementById('grand-total');
+
+    function calculateTotal() {
+        const extraKm = parseFloat(additionalDistInput.value) || 0;
+
+        const extraCost = extraKm * kmRate;
+        const grandTotal = basePrice + extraCost;
+        const newRemaining = grandTotal - advancePaid;
+
+        // Update the visual display elements
+        grandTotalEl.textContent = `₹${grandTotal.toFixed(2)}`;
+
+        // **NEW**: Automatically fill the form input with the calculated remaining amount
+        if (finalPaymentInput) {
+            finalPaymentInput.value = newRemaining.toFixed(2);
+        }
+    }
+
+    // Add event listener for live updates
+    if (additionalDistInput) {
+        additionalDistInput.addEventListener('input', calculateTotal);
+    }
+
+    // Initial calculation on page load
+    calculateTotal();
+});
+</script>
+{% endblock extra_javascript %}

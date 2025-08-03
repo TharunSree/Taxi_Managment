@@ -1,0 +1,39 @@
+{% extends "vertical.html" %}
+
+{% block title %}{{title}}{% endblock title %}
+
+{% block page_content %}
+    {% include "partials/page-title.html" with title="Configuration" subtitle="Site Settings" %}
+    <div class="row">
+        <div class="col-xl-9">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Email (SMTP) Settings</h4>
+                    <p class="text-muted mb-0">These settings will be used to send all automated emails from the system.</p>
+                </div>
+                <div class="card-body">
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.help_text %}
+                                <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                            {% if field.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ field.errors.as_text }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-primary">Save Settings</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_content %}

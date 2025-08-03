@@ -1,0 +1,14 @@
+{% extends 'emails/email_base.html' %}
+
+{% block title %}Trip Cancellation Notice{% endblock %}
+{% block preheader %}Your Trip Has Been Cancelled{% endblock %}
+
+{% block content %}
+    <p>Dear {{ trip.customer.name }},</p>
+    <p>This is a notification that your trip with Aronee scheduled for <strong>{{ trip.trip_date|date:"l, F j, Y" }}</strong> (Trip ID: #{{ trip.id }}) has been cancelled as per your request or due to unforeseen circumstances.</p>
+    
+    <p>If you have any questions or believe this is an error, please feel free to contact us immediately.</p>
+    
+    <p>Sincerely,</p>
+    <p><strong>The Aronee Team</strong></p>
+{% endblock %}

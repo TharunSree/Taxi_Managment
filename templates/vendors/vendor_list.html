@@ -1,0 +1,74 @@
+{% extends "vertical.html" %}
+{% load static i18n %}
+
+{% block title %}{{title}}{% endblock title %}
+
+{% block page_content %}
+    {% include "partials/page-title.html" with title="Management" subtitle="Vendors" %}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <form method="get" class="row gy-2 gx-2 align-items-center">
+                        <div class="col-auto">
+                            <label for="district-filter" class="form-label">Filter by District</label>
+                            <select name="district" id="district-filter" class="form-select">
+                                <option value="">All Districts</option>
+                                {% for district in districts %}
+                                <option value="{{ district }}" {% if district == selected_district %}selected{% endif %}>{{ district }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <label class="form-label" style="visibility: hidden;">Filter</label>
+                            <button type="submit" class="btn btn-primary d-block">Filter</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="card-title">All Vendors</h4>
+                    <a href="{% url 'vendor_add' %}" class="btn btn-primary">Add New Vendor</a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-centered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>District</th>
+                                    <th>Area</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for vendor in vendors %}
+                                <tr>
+                                    <td>{{ vendor.name }}</td>
+                                    <td>{{ vendor.district }}</td>
+                                    <td>{{ vendor.area }}</td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <a href="{% url 'vendor_update' pk=vendor.pk %}" class="btn btn-soft-primary btn-sm"><i class="ri-pencil-fill"></i> Edit</a>
+                                            {% if perms.vendors.delete_vendor %}
+                                            <a href="{% url 'vendor_delete' pk=vendor.pk %}" class="btn btn-soft-danger btn-sm"><i class="ri-delete-bin-fill"></i> Delete</a>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="text-center">No vendors found.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_content %}

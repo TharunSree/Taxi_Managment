@@ -1,0 +1,266 @@
+{% extends "vertical.html" %}
+{% load static %}
+
+{% block title %}{{title}}{% endblock title %}
+
+{% block page_content %}
+    {% include "partials/page-title.html" with title="Trips" subtitle=title %}
+
+    <div class="row">
+        <div class="col-xl-9">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Find a Vehicle</h5>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="district-filter" class="form-label">Filter by District</label>
+                            <select id="district-filter" class="form-select">
+                                <option value="">All Districts</option>
+                                {% for district in districts %}
+                                <option value="{{ district }}">{{ district }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="type-filter" class="form-label">Filter by Vehicle Type</label>
+                            <select id="type-filter" class="form-select">
+                                <option value="">All Types</option>
+                                {% for value, label in vehicle_types %}
+                                <option value="{{ value }}">{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="vendor-filter" class="form-label">Filter by Vendor</label>
+                            <select id="vendor-filter" class="form-select">
+                                <option value="">All Vendors</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Trip Details</h5>
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="mb-3">
+                            {{ field.label_tag }}
+                            {% if field.name == 'customer' %}
+                                <div class="input-group">
+                                    {{ field }}
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCustomerModal"><i class="ri-add-line"></i> Add</button>
+                                </div>
+                            {% else %}
+                                {{ field }}
+                            {% endif %}
+                            {% if field.errors %}<div class="invalid-feedback d-block">{{ field.errors.as_text }}</div>{% endif %}
+                        </div>
+                        {% endfor %}
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-primary">Save Trip</button>
+                            <a href="{% url 'trip_list' %}" class="btn btn-light">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCustomerModalLabel">Add New Customer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addCustomerForm" action="{% url 'customer_add_ajax' %}" method="POST">
+                        {% csrf_token %}
+                        {{ customer_form.as_p }}
+                        <div id="customer-form-errors" class="text-danger"></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveCustomerBtn">Save Customer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_content %}
+
+{% block extra_javascript %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // --- Elements ---
+    const districtFilter = document.getElementById('district-filter');
+    const typeFilter = document.getElementById('type-filter');
+    const vendorFilter = document.getElementById('vendor-filter');
+    const vehicleSelect = document.getElementById('id_vehicle');
+    const packageSelect = document.getElementById('id_package');
+    const priceInput = document.getElementById('id_total_price');
+    const saveCustomerBtn = document.getElementById('saveCustomerBtn');
+    const addCustomerForm = document.getElementById('addCustomerForm');
+    const customerSelect = document.getElementById('id_customer');
+    const customerModalEl = document.getElementById('addCustomerModal');
+    const customerModal = new bootstrap.Modal(customerModalEl);
+    const errorDiv = document.getElementById('customer-form-errors');
+
+    // Check if vehicle select exists
+    if (!vehicleSelect) {
+        console.error('Vehicle select not found');
+        return;
+    }
+
+    // --- Event Listeners ---
+    if (districtFilter) districtFilter.addEventListener('change', handleFiltersChange);
+    if (typeFilter) typeFilter.addEventListener('change', handleFiltersChange);
+    if (vendorFilter) vendorFilter.addEventListener('change', handleFiltersChange);
+    if (packageSelect) packageSelect.addEventListener('change', handlePackageChange);
+    if (saveCustomerBtn) saveCustomerBtn.addEventListener('click', handleSaveCustomer);
+
+    // Load initial data
+    loadVendors();
+    loadVehicles();
+
+    // --- Filter Functions ---
+    async function loadVendors() {
+        const district = districtFilter.value;
+
+        try {
+            let url = '{% url "api_vendors_by_district" %}';
+            if (district) {
+                url += `?district=${encodeURIComponent(district)}`;
+            }
+
+            const response = await fetch(url);
+            const vendors = await response.json();
+
+            vendorFilter.innerHTML = '<option value="">All Vendors</option>';
+            vendors.forEach(vendor => {
+                const option = new Option(vendor.name, vendor.id);
+                vendorFilter.add(option);
+            });
+        } catch (error) {
+            console.error('Error loading vendors:', error);
+            vendorFilter.innerHTML = '<option value="">Error loading vendors</option>';
+        }
+    }
+
+    async function loadVehicles() {
+    const district = districtFilter.value;
+    const vehicleType = typeFilter.value;
+    const vendorId = vendorFilter.value;
+
+    console.log('Loading vehicles with filters:', { district, vehicleType, vendorId });
+
+    vehicleSelect.innerHTML = '<option value="">Loading vehicles...</option>';
+
+    try {
+        let url = '{% url "api_vehicles_by_vendor" %}?';
+        const params = new URLSearchParams();
+
+        // Logic:
+        // 1. If specific vendor selected -> filter by vendor
+        // 2. If "All Vendors" but district selected -> filter by district
+        // 3. If no district and no vendor -> show all vehicles
+
+        if (vendorId) {
+            params.append('vendor_id', vendorId);
+        } else if (district) {
+            params.append('district', district);
+        }
+
+        if (vehicleType) {
+            params.append('type', vehicleType);
+        }
+
+        url += params.toString();
+
+        console.log('Fetching vehicles from:', url);
+
+        const response = await fetch(url);
+        const vehicles = await response.json();
+
+        console.log('Received vehicles:', vehicles);
+
+        vehicleSelect.innerHTML = '<option value="">Select a Vehicle</option>';
+
+        if (vehicles.length === 0) {
+            let message = 'No vehicles available';
+            if (district && !vendorId) {
+                message += ` in ${district}`;
+            }
+            if (vehicleType) {
+                message += ` of type ${vehicleType}`;
+            }
+            vehicleSelect.innerHTML = `<option value="">${message}</option>`;
+            return;
+        }
+
+        vehicles.forEach(vehicle => {
+            const option = new Option(vehicle.name, vehicle.id);
+            vehicleSelect.add(option);
+        });
+    } catch (error) {
+        console.error('Error loading vehicles:', error);
+        vehicleSelect.innerHTML = '<option value="">Error loading vehicles</option>';
+    }
+}
+
+    async function handleFiltersChange() {
+        // If district changed, reload vendors
+        if (this === districtFilter) {
+            await loadVendors();
+        }
+        // Always reload vehicles when any filter changes
+        await loadVehicles();
+    }
+
+    // --- Package Price Function ---
+    const packagePrices = JSON.parse('{{ package_prices_json|safe|default:"{}" }}');
+    function handlePackageChange() {
+        const selectedPackageId = this.value;
+        if (selectedPackageId && packagePrices[selectedPackageId]) {
+            priceInput.value = packagePrices[selectedPackageId];
+            priceInput.readOnly = true;
+        } else {
+            priceInput.value = '';
+            priceInput.readOnly = false;
+        }
+    }
+
+    // --- "Add Customer" Modal Function ---
+    function handleSaveCustomer() {
+        const formData = new FormData(addCustomerForm);
+
+        fetch(addCustomerForm.action, {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const newOption = new Option(data.customer.name, data.customer.id, true, true);
+                customerSelect.add(newOption);
+                customerModal.hide();
+                addCustomerForm.reset();
+                errorDiv.innerHTML = '';
+            } else {
+                let errorHtml = '<ul>';
+                for (const field in data.errors) {
+                    errorHtml += `<li>${field}: ${data.errors[field][0].message}</li>`;
+                }
+                errorHtml += '</ul>';
+                errorDiv.innerHTML = errorHtml;
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+});
+</script>
+{% endblock extra_javascript %}

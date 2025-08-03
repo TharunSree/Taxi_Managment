@@ -1,0 +1,61 @@
+{% extends "vertical.html" %}
+
+{% block title %}{{ title }}{% endblock title %}
+
+{% block page_content %}
+    {% include "partials/page-title.html" with title="Management" subtitle="Trip Packages" %}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="card-title">All Packages</h4>
+                    <a href="{% url 'package_add' %}" class="btn btn-primary">Add New Package</a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-centered">
+                            <thead class="table-light">
+                            <tr>
+                                <th>Name</th>
+                                <th>Vehicle Type</th>
+                                <th>Vehicle Model</th>
+                                <th>Charges</th>
+                                <th>Extra Charge/KM</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for package in packages %}
+                                <tr>
+                                    <td>{{ package.name }}</td>
+                                    <td>{{ package.get_vehicle_type_display }}</td>
+                                    <td>{{ package.vehicle_model }}</td>
+                                    <td>₹{{ package.charges|floatformat:2 }}</td>
+                                    <td>₹{{ package.extra_charge_per_km|floatformat:2 }}</td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <a href="{% url 'package_update' pk=package.pk %}"
+                                               class="btn btn-soft-primary btn-sm"><i class="ri-pencil-fill"></i>
+                                                Edit</a>
+                                            {% if perms.trips.delete_package %}
+                                                <a href="{% url 'package_delete' pk=package.pk %}"
+                                                   class="btn btn-soft-danger btn-sm"><i class="ri-delete-bin-fill"></i>
+                                                    Delete</a>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="6" class="text-center">No packages found.</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_content %}

@@ -1,0 +1,87 @@
+{% extends "vertical.html" %}
+{% load static i18n %}
+
+{% block title %}{{title}}{% endblock title %}
+
+{% block page_content %}
+    {% include "partials/page-title.html" with title="Management" subtitle="Vehicles" %}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <form method="get" class="row gy-2 gx-2 align-items-center">
+                        <div class="col-sm-4">
+                            <label for="district-filter" class="form-label">Filter by District</label>
+                            <select name="district" id="district-filter" class="form-select">
+                                <option value="">All Districts</option>
+                                {% for district in districts %}
+                                <option value="{{ district }}" {% if district == selected_district %}selected{% endif %}>{{ district }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="type-filter" class="form-label">Filter by Type</label>
+                            <select name="type" id="type-filter" class="form-select">
+                                <option value="">All Types</option>
+                                {% for value, label in vehicle_types %}
+                                <option value="{{ value }}" {% if value == selected_type %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <label class="form-label" style="visibility: hidden;">Filter</label>
+                            <button type="submit" class="btn btn-primary d-block">Filter</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="card-title">All Vehicles</h4>
+                    <a href="{% url 'vehicle_add' %}" class="btn btn-primary">Add New Vehicle</a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-centered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Make</th>
+                                    <th>Model</th>
+                                    <th>Number</th>
+                                    <th>Type</th>
+                                    <th>Vendor</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for vehicle in vehicles %}
+                                <tr>
+                                    <td>{{ vehicle.make }}</td>
+                                    <td>{{ vehicle.model }}</td>
+                                    <td>{{ vehicle.number }}</td>
+                                    <td><span class="badge bg-primary-subtle text-primary">{{ vehicle.get_type_display }}</span></td>
+                                    <td>{{ vehicle.vendor.name }}</td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <a href="{% url 'vehicle_update' pk=vehicle.pk %}" class="btn btn-soft-primary btn-sm"><i class="ri-pencil-fill"></i> Edit</a>
+                                            {% if perms.vehicles.delete_vehicle %}
+                                            <a href="{% url 'vehicle_delete' pk=vehicle.pk %}" class="btn btn-soft-danger btn-sm"><i class="ri-delete-bin-fill"></i> Delete</a>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="6" class="text-center">No vehicles found.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_content %}

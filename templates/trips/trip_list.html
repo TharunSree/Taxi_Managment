@@ -1,0 +1,87 @@
+{% extends "vertical.html" %}
+
+{% block title %}{{ title }}{% endblock title %}
+
+{% block page_content %}
+    {% include "partials/page-title.html" with title="Management" subtitle="Trips" %}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="card-title">All Trips</h4>
+                    <a href="{% url 'trip_add' %}" class="btn btn-primary">Create New Trip</a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-centered">
+                            <thead class="table-light">
+                            <tr>
+                                <th class="text-center">Customer</th>
+                                <th class="text-center">Vehicle</th>
+                                <th class="text-center">Trip Date</th>
+                                <th class="text-center">Total Price</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for trip in trips %}
+                                <tr>
+                                    <td class="text-center">{{ trip.customer.name }}</td>
+                                    <td class="text-center">{{ trip.vehicle }}</td>
+                                    <td class="text-center">{{ trip.trip_date|date:"d M Y, P" }}</td>
+                                    <td class="text-center">₹{{ trip.total_price|floatformat:2 }}</td>
+                                    <td class="text-center">
+                                        {% if trip.status == 'Completed' %}
+                                            <span class="badge bg-success-subtle text-success">{{ trip.get_status_display }}</span>
+                                        {% elif trip.status == 'Upcoming' %}
+                                            <span class="badge bg-info-subtle text-info">{{ trip.get_status_display }}</span>
+                                        {% elif trip.status == 'On-going' %}
+                                            <span class="badge bg-warning-subtle text-warning">{{ trip.get_status_display }}</span>
+                                        {% else %}
+                                            <span class="badge bg-danger-subtle text-danger">{{ trip.get_status_display }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="d-flex align-items-center gap-2">
+                                            {% if trip.status == 'Completed' %}
+                                                <a href="{% url 'generate_bill' pk=trip.pk %}"
+                                                   class="btn btn-soft-info btn-sm"><i class="ri-bill-line"></i>
+                                                    Bill</a>
+                                            {% endif %}
+                                            {% if trip.status == 'Completed' and not trip.rating %}
+                                                <a href="{% url 'trip_rate' pk=trip.pk %}"
+                                                   class="btn btn-soft-warning btn-sm"><i class="ri-star-line"></i> Rate</a>
+                                            {% elif trip.rating %}
+                                                <span class="badge bg-warning text-dark">Rated: {{ trip.rating.stars }} ★</span>
+                                            {% endif %}
+
+                                            <a href="{% url 'trip_update' pk=trip.pk %}"
+                                               class="btn btn-soft-primary btn-sm"><i class="ri-pencil-fill"></i></a>
+
+                                            {% if trip.status == 'Upcoming' or trip.status == 'On-going' %}
+                                                <a href="{% url 'trip_finalize' pk=trip.pk %}"
+                                                   class="btn btn-soft-success btn-sm"><i
+                                                        class="ri-check-double-line"></i></a>
+                                            {% endif %}
+                                            {% if perms.trips.delete_trip %}
+                                                <a href="{% url 'trip_cancel' pk=trip.pk %}"
+                                                   class="btn btn-soft-warning btn-sm"><i class="ri-close-line"></i></a>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="6" class="text-center">No trips found.</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_content %}

@@ -1,0 +1,25 @@
+{% extends "vertical.html" %}
+
+{% block title %}{{ title }}{% endblock title %}
+
+{% block page_content %}
+    {% include "partials/page-title.html" with title="Vehicles" subtitle="Confirm Deletion" %}
+
+    <div class="row">
+        <div class="col-xl-9">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Delete Vehicle</h4>
+                    <p>Are you sure you want to permanently delete the vehicle:
+                        <strong>"{{ vehicle.make }} {{ vehicle.model }} ({{ vehicle.number }})"</strong>?</p>
+                    <p class="text-danger">This action cannot be undone.</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                        <a href="{% url 'vehicle_list' %}" class="btn btn-light">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_content %}

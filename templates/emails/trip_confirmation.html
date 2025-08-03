@@ -1,0 +1,39 @@
+{% extends 'emails/email_base.html' %}
+
+{% block title %}Your Trip is Confirmed!{% endblock %}
+{% block preheader %}Trip Confirmation - Aronee{% endblock %}
+
+{% block content %}
+    <p>Dear {{ trip.customer.name }},</p>
+    <p>This is a confirmation that your trip has been successfully booked. Please find the details below:</p>
+
+    <table border="0" cellpadding="10" cellspacing="0"
+           style="width: 100%; border: 1px solid #e4e2e2; margin-top: 20px; margin-bottom: 20px;">
+        <tr>
+            <td style="background-color: #f8f8f8; width: 150px;"><strong>Trip ID:</strong></td>
+            <td>#{{ trip.id }}</td>
+        </tr>
+        <tr>
+            <td style="background-color: #f8f8f8;"><strong>Date & Time:</strong></td>
+            <td>{{ trip.trip_date|date:"l, F j, Y, g:i A" }}</td>
+        </tr>
+        <tr>
+            <td style="background-color: #f8f8f8;"><strong>Vehicle:</strong></td>
+            <td>
+                {{ trip.vehicle.number }}<br>
+                {{ trip.vehicle.make }} {{ trip.vehicle.model }}<br>
+                {{ trip.vehicle.get_type_display }}
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #f8f8f8;"><strong>Total Price:</strong></td>
+            <td>₹{{ trip.total_price|floatformat:2 }}</td>
+        </tr>
+        <tr>
+            <td style="background-color: #f8f8f8;"><strong>Advance Paid:</strong></td>
+            <td>₹{{ trip.advance_paid|floatformat:2 }}</td>
+        </tr>
+    </table>
+
+    <p>Thank you for choosing Aronee!</p>
+{% endblock %}

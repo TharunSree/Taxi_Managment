@@ -1,0 +1,53 @@
+{% extends "vertical.html" %}
+
+{% block title %}{{title}}{% endblock title %}
+
+{% block page_content %}
+    {% include "partials/page-title.html" with title="Settings" subtitle="User Management" %}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="card-title">All Users</h4>
+                    <a href="{% url 'create_staff' %}" class="btn btn-primary">Create New Staff</a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-centered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
+                                    <th>Role(s)</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for u in users %}
+                                <tr>
+                                    <td>{{ u.username }} {% if u.is_superuser %}<span class="badge bg-primary">Admin</span>{% endif %}</td>
+                                    <td>{{ u.get_full_name|default:"N/A" }}</td>
+                                    <td>{{ u.email|default:"N/A" }}</td>
+                                    <td>{% for group in u.groups.all %}<span class="badge bg-info">{{ group.name }}</span> {% endfor %}</td>
+                                    <td>{% if u.is_active %}<span class="badge bg-success">Active</span>{% else %}<span class="badge bg-danger">Inactive</span>{% endif %}</td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <a href="{% url 'user_update' pk=u.pk %}" class="btn btn-soft-primary btn-sm"><i class="ri-pencil-fill"></i> Edit</a>
+                                            {% if not u.is_superuser %}
+                                            <a href="{% url 'user_delete' pk=u.pk %}" class="btn btn-soft-danger btn-sm"><i class="ri-delete-bin-fill"></i> Delete</a>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_content %}

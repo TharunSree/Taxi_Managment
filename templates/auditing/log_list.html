@@ -1,0 +1,85 @@
+{% extends "vertical.html" %}
+
+{% block title %}{{title}}{% endblock title %}
+
+{% block page_content %}
+    {% include "partials/page-title.html" with title="Auditing" subtitle="User Action Logs" %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">User Session Logs (Login/Logout)</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-centered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>User</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for log in session_logs %}
+                                <tr>
+                                    <td>{{ log.action_time|date:"d M Y, P" }}</td>
+                                    <td>{{ log.user.username }}</td>
+                                    <td>{{ log.change_message }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="3" class="text-center">No user login or logout events have been logged.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Model Action Logs (Create/Update)</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-centered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>User</th>
+                                    <th>Action</th>
+                                    <th>Object Type</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for log in action_logs %}
+                                <tr>
+                                    <td>{{ log.action_time|date:"d M Y, P" }}</td>
+                                    <td>{{ log.user.username }}</td>
+                                    <td>
+                                        {% if log.is_addition %} <span class="badge bg-success">Created</span>
+                                        {% elif log.is_change %} <span class="badge bg-warning">Changed</span>
+                                        {% elif log.is_deletion %} <span class="badge bg-danger">Deleted</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ log.content_type.name|title }}</td>
+                                    <td>{{ log.object_repr }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="5" class="text-center">No model actions have been logged yet.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_content %}
