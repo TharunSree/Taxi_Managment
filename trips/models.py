@@ -45,6 +45,7 @@ class Trip(models.Model):
     customer_payment_option = models.CharField(max_length=10, choices=PaymentOption.choices, default=PaymentOption.CASH)
     final_payment_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     final_payment_date = models.DateField(null=True, blank=True)
+    final_payment_option = models.CharField(max_length=10, choices=PaymentOption.choices, default=PaymentOption.CASH)
     vendor_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True,
                                        help_text="Amount to be paid to the vendor")
     vendor_advance = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True,
