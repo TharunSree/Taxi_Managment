@@ -75,7 +75,8 @@
                                     <th>Vehicle</th>
                                     <th>Trip Date</th>
                                     <th>Status</th>
-                                    <th class="text-end">Total Price</th>
+                                    <th>Total Price</th>
+                                    <th class="text-end">Agent Revenue</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -88,7 +89,8 @@
                                         <td><span
                                                 class="badge bg-success-subtle text-success">{{ trip.get_status_display }}</span>
                                         </td>
-                                        <td class="text-end">₹{{ trip.total_price|floatformat:2 }}</td>
+                                        <td>₹{{ trip.total_price|floatformat:2 }}</td>
+                                        <td class="text-end">₹{{ trip.total_price|default:0|floatformat:2|floatformat:"2" }}</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>
