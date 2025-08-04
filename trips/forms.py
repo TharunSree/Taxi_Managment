@@ -61,11 +61,12 @@ class PackageForm(forms.ModelForm):
 class TripFinalizeForm(forms.ModelForm):
     class Meta:
         model = Trip
-        fields = ['additional_distance', 'final_payment_amount', 'final_payment_date']
+        fields = ['additional_distance', 'final_payment_amount', 'final_payment_date','final_payment_option']
         widgets = {
             'additional_distance': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'e.g., 50'}),
             'final_payment_amount': forms.NumberInput(attrs={'class': 'form-control'}),
             'final_payment_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'final_payment_option': forms.Select(attrs={'class': 'form-select'}),
         }
 
 
