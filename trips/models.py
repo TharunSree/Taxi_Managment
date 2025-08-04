@@ -19,6 +19,9 @@ class Package(models.Model):
     def __str__(self):
         return f"{self.name} ({self.vehicle_type} - {self.vehicle_model})"
 
+    class Meta:
+        ordering = ["name"]
+
 
 class Trip(models.Model):
     class TripStatus(models.TextChoices):
