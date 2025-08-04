@@ -26,4 +26,4 @@ class Customer(models.Model):
         return f"{self.name} - {self.phone}"
 
     class Meta:
-        ordering = ['-name']
+        ordering = ['name']
