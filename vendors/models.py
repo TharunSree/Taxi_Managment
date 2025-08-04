@@ -11,4 +11,4 @@ class Vendor(models.Model):
         return f"{self.name} ({self.district})"
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ['name']
