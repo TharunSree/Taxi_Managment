@@ -50,3 +50,10 @@ class StaffUserChangeForm(forms.ModelForm):
                  field.widget.attrs.update({'class': 'form-select', 'size': '4'})
             else:
                  field.widget.attrs.update({'class': 'form-control'})
+
+
+class AdminPasswordResetForm(SetPasswordForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['new_password1'].widget.attrs.update({'class': 'form-control'})
+        self.fields['new_password2'].widget.attrs.update({'class': 'form-control'})
