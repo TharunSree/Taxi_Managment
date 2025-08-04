@@ -22,9 +22,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-6$@i!5=%5q8q6!ao@hqhj89q2uplsj-k9w=t&y_1aovh^ni+#x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['tarunsree.live','www.tarunsree.live']
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = '/static/'
@@ -86,22 +86,20 @@ WSGI_APPLICATION = 'Taxi_Managment.wsgi.application'
 homepage_url = '/'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
+homepage_url = '/'
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'taxi_managment',
-        'USER': 'root',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'taxi_manag_db',
+        'USER': 'taxi_user',
         'PASSWORD': '24022005',
         'HOST': 'localhost',
-        'PORT': '3306',
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-            'charset': 'utf8mb4',
-        },
+        'PORT': '5432',
     }
 }
 
+USE_X_FORWARDED_HOST = True
+# Tell Django that the entire project lives under the /taxi/ URL prefix
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
@@ -166,3 +164,13 @@ LOGGING = {
         },
     },
 }
+
+# Set the session cookie to expire after 15 minutes (15 * 60 seconds).
+SESSION_COOKIE_AGE = 900
+
+# Ensure the session cookie is deleted when the user closes their browser.
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Update the session on every single request. This is key for the idle timer,
+# as it resets the 15-minute countdown every time the user clicks a link.
+SESSION_SAVE_EVERY_REQUEST = True
