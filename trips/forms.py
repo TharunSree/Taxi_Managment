@@ -9,9 +9,10 @@ class TripForm(forms.ModelForm):
     class Meta:
         model = Trip
         fields = [
-            'customer', 'vehicle', 'trip_date', 'package', 'total_price',
-            'vendor_price', 'vendor_advance', 'vendor_advance_date',
-            'advance_paid', 'advance_paid_date', 'status', 'remarks'
+            'customer', 'vehicle', 'trip_date', 'package', 'total_price', 'advance_paid', 'advance_paid_date',
+            'customer_payment_option',
+            'vendor_price', 'vendor_advance', 'vendor_advance_date','vendor_payment_option',
+            'status', 'remarks'
         ]
         widgets = {
             'customer': forms.Select(attrs={'class': 'form-select'}),
@@ -24,6 +25,8 @@ class TripForm(forms.ModelForm):
             'vendor_price': forms.NumberInput(attrs={'class': 'form-control'}),
             'vendor_advance': forms.NumberInput(attrs={'class': 'form-control'}),
             'vendor_advance_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'customer_payment_option': forms.Select(attrs={'class': 'form-select'}),
+            'vendor_payment_option': forms.Select(attrs={'class': 'form-select'}),
             'status': forms.Select(attrs={'class': 'form-select'}),
             'remarks': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
         }

@@ -27,6 +27,13 @@ class Trip(models.Model):
         COMPLETED = 'Completed', 'Completed'
         CANCELLED = 'Cancelled', 'Cancelled'
 
+    class PaymentOption(models.TextChoices):
+        CASH = 'Cash', 'Cash'
+        CARD = 'Card', 'Card'
+        ONLINE = 'Online', 'Online'
+        UPI = 'UPI', 'UPI'
+
+
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT, related_name='trips')
     vehicle = models.ForeignKey(Vehicle, on_delete=models.PROTECT, related_name='trips')
     trip_date = models.DateTimeField()
@@ -35,6 +42,7 @@ class Trip(models.Model):
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     advance_paid = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     advance_paid_date = models.DateField(blank=True, null=True)
+    customer_payment_option = models.CharField(max_length=10, choices=PaymentOption.choices, default=PaymentOption.CASH)
     final_payment_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     final_payment_date = models.DateField(null=True, blank=True)
     vendor_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True,
@@ -42,8 +50,17 @@ class Trip(models.Model):
     vendor_advance = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True,
                                          help_text="Advance paid to the vendor")
     vendor_advance_date = models.DateField(blank=True, null=True)
+    vendor_payment_option = models.CharField(max_length=10, choices=PaymentOption.choices, default=PaymentOption.CASH)
 
-    # remaining_amount can be calculated property
+    status = models.CharField(max_length=10, choices=TripStatus.choices, default=TripStatus.UPCOMING)
+
+    # For trip finalization
+    additional_distance = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+    remarks = models.TextField(blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     @property
     def final_balance(self):
         # Calculate the new total price including extra distance
@@ -70,15 +87,6 @@ class Trip(models.Model):
     @property
     def remaining_amount(self):
         return self.total_price - self.advance_paid
-
-    status = models.CharField(max_length=10, choices=TripStatus.choices, default=TripStatus.UPCOMING)
-
-    # For trip finalization
-    additional_distance = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
-    remarks = models.TextField(blank=True, null=True)
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"Trip for {self.customer.name} on {self.trip_date.strftime('%Y-%m-%d')}"

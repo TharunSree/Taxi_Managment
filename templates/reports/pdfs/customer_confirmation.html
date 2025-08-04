@@ -40,6 +40,10 @@
                 <th>Advance Paid</th>
                 <td>₹{{ trip.advance_paid|floatformat:2 }}</td>
             </tr>
+            <tr>
+                <th>Paymend Mode</th>
+                <td>₹{{ trip.customer_payment_option|floatformat:2 }}</td>
+            </tr>
         </table>
     </div>
 
