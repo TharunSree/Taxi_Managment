@@ -1,9 +1,13 @@
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import permission_required, login_required
+from django.contrib.auth.decorators import permission_required, login_required, user_passes_test
 from django.contrib import messages
-from .forms import StaffUserCreationForm, StaffUserChangeForm
+from .forms import StaffUserCreationForm, StaffUserChangeForm, AdminPasswordResetForm
+
+
+def is_admin(user):
+    return user.is_superuser
 
 
 @permission_required('auth.add_user', raise_exception=True)
@@ -71,7 +75,36 @@ def user_delete_view(request, pk):
     }
     return render(request, 'authentication/user_confirm_delete.html', context)
 
+
 @login_required
 def custom_logout(request):
     logout(request)
     return redirect('login')
+
+
+@user_passes_test(is_admin)
+def admin_reset_password_view(request, pk):
+    user_to_reset = get_object_or_404(User, pk=pk)
+    if request.method == 'POST':
+        form = AdminPasswordResetForm(user_to_reset, request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"Password for {user_to_reset.username} has been reset successfully.")
+            return redirect('user_list')
+    else:
+        form = AdminPasswordResetForm(user_to_reset)
+
+    context = {
+        'form': form,
+        'user_to_reset': user_to_reset,
+        'title': f"Reset Password for {user_to_reset.username}"
+    }
+    return render(request, 'authentication/admin_password_reset_form.html', context)
+
+@login_required
+def profile_view(request):
+    context = {
+        'user': request.user,
+        'title': 'My Profile'
+    }
+    return render(request, 'authentication/profile.html', context)

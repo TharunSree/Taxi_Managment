@@ -4,29 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2e8532d-4fb6-4584-98eb-a4931dc36ec8" name="Changes" comment="Add initial migrations and models for site configuration, customers, trips, vehicles, and vendors">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.venv/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.venv/CACHEDIR.TAG" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.venv/pyvenv.cfg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/reports/pdfs/customer_confirmation.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/reports/pdfs/vendor_confirmation.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Taxi_Managment/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Taxi_Managment/settings.py" afterDir="false" />
+    <list default="true" id="d2e8532d-4fb6-4584-98eb-a4931dc36ec8" name="Changes" comment="Add PDF generation for customer and vendor trip confirmations">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reports/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/reports/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reports/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/reports/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/trips/trip_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/trips/trip_list.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ChangesViewManager" show_ignored="true">
-    <option name="groupingKeys">
-      <option value="directory" />
-      <option value="repository" />
-    </option>
-  </component>
+  <component name="ChangesViewManager" show_ignored="true" />
   <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
@@ -41,18 +29,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "TharunSree"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;TharunSree&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/TharunSree/Taxi_Managment.git",
-    "accountId": "e97c2937-18ec-4633-b98d-82b45d03bf75"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/TharunSree/Taxi_Managment.git&quot;,
+    &quot;accountId&quot;: &quot;e97c2937-18ec-4633-b98d-82b45d03bf75&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -140,7 +128,9 @@
       <updated>1754197438757</updated>
       <workItem from="1754197439747" duration="29499000" />
       <workItem from="1754248549511" duration="1825000" />
-      <workItem from="1754250436185" duration="3151000" />
+      <workItem from="1754250436185" duration="7680000" />
+      <workItem from="1754301105925" duration="2017000" />
+      <workItem from="1754322635688" duration="728000" />
     </task>
     <task id="LOCAL-00001" summary="Add URL routing and forms for various features including users, vendors, vehicles, and trips">
       <option name="closed" value="true" />
@@ -174,7 +164,15 @@
       <option name="project" value="LOCAL" />
       <updated>1754250871788</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Add PDF generation for customer and vendor trip confirmations">
+      <option name="closed" value="true" />
+      <created>1754255704006</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1754255704006</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -183,7 +181,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add URL routing and forms for various features including users, vendors, vehicles, and trips" />
     <MESSAGE value="Add initial migrations and models for site configuration, customers, trips, vehicles, and vendors" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add initial migrations and models for site configuration, customers, trips, vehicles, and vendors" />
+    <MESSAGE value="Add PDF generation for customer and vendor trip confirmations" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add PDF generation for customer and vendor trip confirmations" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
