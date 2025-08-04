@@ -100,7 +100,6 @@ DATABASES = {
 
 USE_X_FORWARDED_HOST = True
 # Tell Django that the entire project lives under the /taxi/ URL prefix
-FORCE_SCRIPT_NAME = '/taxi'
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
