@@ -92,10 +92,10 @@
                                         <td><span
                                                 class="badge bg-success-subtle text-success">{{ trip.get_status_display }}</span>
                                         </td>
-                                        <td>₹{{ trip.advance_paid|floatformat:2}}</td>
-                                        <td>₹{{ trip.vendor_price|floatformat:2}}</td>
-                                        <td>₹{{ trip.vendor_advance|floatformat:2}}</td>
-                                        <td>₹{{ trip.total_price|floatformat:2 }}</td>
+                                        <td>₹{{ trip.advance_paid|default:0|floatformat:2}}</td>
+                                        <td>₹{{ trip.vendor_price|default:0|floatformat:2}}</td>
+                                        <td>₹{{ trip.vendor_advance|default:0|floatformat:2}}</td>
+                                        <td>₹{{ trip.total_price|default:0|floatformat:2 }}</td>
                                         <td class="text-end">₹{{ trip.agent_revenue|default:0|floatformat:2|floatformat:"2" }}</td>
                                     </tr>
                                 {% endfor %}
