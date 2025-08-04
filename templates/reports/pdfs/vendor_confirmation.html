@@ -1,24 +1,48 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Work Order #{{ trip.id }}</title>
-    <style> /* (Same styles as customer confirmation) */ </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header"><h1>Gmini Tours - Work Order</h1></div>
-        <p><strong>To: {{ trip.vehicle.vendor.name }},</strong></p>
-        <p>Please find the details for the assigned trip below.</p>
+{% extends 'reports/pdfs/pdf_base.html' %}
+
+{% block title %}Work Order #{{ trip.id }}{% endblock %}
+{% block doc_title %}Work Order{% endblock %}
+
+{% block content %}
+    <div class="details-section">
+        <h3>Vendor Details</h3>
+        <p>
+            <strong>Name:</strong> {{ trip.vehicle.vendor.name }}<br>
+            <strong>District:</strong> {{ trip.vehicle.vendor.district }}
+        </p>
+    </div>
+
+    <div class="details-section">
+        <h3>Trip Assignment Details</h3>
         <table>
-            <tr><th>Trip ID</th><td>#{{ trip.id }}</td></tr>
-            <tr><th>Date & Time</th><td>{{ trip.trip_date|date:"l, F j, Y, g:i A" }}</td></tr>
-            <tr><th>Customer Name</th><td>{{ trip.customer.name }} (Ph: {{ trip.customer.phone }})</td></tr>
-            <tr><th>Route</th><td>{{ trip.customer.from_location }} to {{ trip.customer.to_location }}</td></tr>
-            <tr><th>Assigned Vehicle</th><td>{{ trip.vehicle.number }}</td></tr>
-            <tr><th>Your Price</th><td>₹{{ trip.vendor_price|floatformat:2 }}</td></tr>
-            <tr><th>Advance Paid to You</th><td>₹{{ trip.vendor_advance|floatformat:2|default:"0.00" }}</td></tr>
+            <tr>
+                <th style="width: 30%;">Trip ID</th>
+                <td>#{{ trip.id }}</td>
+            </tr>
+            <tr>
+                <th>Date & Time</th>
+                <td>{{ trip.trip_date|date:"l, F j, Y, g:i A" }}</td>
+            </tr>
+            <tr>
+                <th>Customer Details</th>
+                <td>{{ trip.customer.name }} (Phone: {{ trip.customer.phone }})</td>
+            </tr>
+            <tr>
+                <th>Route</th>
+                <td>From <strong>{{ trip.customer.from_location }}</strong> to <strong>{{ trip.customer.to_location }}</strong></td>
+            </tr>
+             <tr>
+                <th>Assigned Vehicle</th>
+                <td>{{ trip.vehicle.number }}</td>
+            </tr>
+            <tr>
+                <th>Your Agreed Price</th>
+                <td><strong>₹{{ trip.vendor_price|floatformat:2 }}</strong></td>
+            </tr>
+             <tr>
+                <th>Advance Paid to You</th>
+                <td>₹{{ trip.vendor_advance|floatformat:2|default:"0.00" }}</td>
+            </tr>
         </table>
     </div>
-</body>
-</html>
+{% endblock %}
