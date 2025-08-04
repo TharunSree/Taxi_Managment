@@ -108,3 +108,7 @@ def profile_view(request):
         'title': 'My Profile'
     }
     return render(request, 'authentication/profile.html', context)
+
+def session_timed_out_view(request):
+    # This view doesn't need to do much, just render the template.
+    return render(request, 'authentication/session_timed_out.html')

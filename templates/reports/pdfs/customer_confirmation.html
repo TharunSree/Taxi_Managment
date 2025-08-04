@@ -1,3 +1,24 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Trip Confirmation #{{ trip.id }}</title>
+    <style>
+        body { font-family: sans-serif; font-size: 14px; color: #333; }
+        .container { width: 90%; margin: auto; }
+        .header { text-align: center; border-bottom: 2px solid #0a2d5c; padding-bottom: 10px; }
+        h1 { color: #0a2d5c; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header"><h1>Aronee - Trip Confirmation</h1></div>
+        <p><strong>Dear {{ trip.customer.name }},</strong></p>
+        <p>This document confirms the details of your upcoming trip.</p>
 {% extends 'reports/pdfs/pdf_base.html' %}
 
 {% block title %}Trip Confirmation #{{ trip.id }}{% endblock %}
@@ -15,6 +36,7 @@
 
     <div class="details-section">
         <h3>Trip Details</h3>
+
         <table>
             <tr>
                 <th style="width: 30%;">Trip ID</th>

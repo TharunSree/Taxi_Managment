@@ -51,6 +51,30 @@
     <script type="text/javascript" id="MathJax-script" async
             src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
     </script>
+    <script>
+        (function () {
+            // Only run this script if a user is authenticated
+            {% if user.is_authenticated %}
+                let idleTimer;
+                const timeoutDuration = 15 * 60 * 1000; // 15 minutes in milliseconds
+
+                const resetTimer = () => {
+                    clearTimeout(idleTimer);
+                    idleTimer = setTimeout(() => {
+                        // Redirect to the session timeout page when the timer expires
+                        window.location.href = "{% url 'session_timed_out' %}";
+                    }, timeoutDuration);
+                };
+
+                // Reset the timer on any of these user activities
+                window.onload = resetTimer;
+                document.onmousemove = resetTimer;
+                document.onkeypress = resetTimer;
+                document.onclick = resetTimer;
+                document.onscroll = resetTimer;
+            {% endif %}
+        })();
+    </script>
 {% endblock javascript %}
 
 </body>
