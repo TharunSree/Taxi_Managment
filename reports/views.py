@@ -38,34 +38,14 @@ def trip_report_view(request):
         total_advance=Sum('advance_paid')
     )
 
-    # Serialize the queryset into a list of dictionaries for JavaScript
-    trip_data_for_js = [
-        {
-            'id': trip.id,
-            'customer': trip.customer.name,
-            'vehicle': str(trip.vehicle),
-            'trip_date': trip.trip_date.strftime("%d %b %Y, %I:%M %p"),
-            'status': trip.get_status_display(),
-            'advance_paid': float(trip.advance_paid) if trip.advance_paid else 0.0,
-            'vendor_price': float(trip.vendor_price) if trip.vendor_price else 0.0,
-            'vendor_advance': float(trip.vendor_advance) if trip.vendor_advance else 0.0,
-            'total_price': float(trip.total_price) if trip.total_price else 0.0,
-            'agent_revenue': float(trip.agent_revenue) if trip.agent_revenue else 0.0,
-        }
-        for trip in trips
-    ]
-
     context = {
-        # Keep the `trips` variable for the summary block
         'trips': trips,
         'summary': summary,
-        'start_date': start_date_str,
+        'start_date': start_date_str,  # Pass back to pre-fill the form
         'end_date': end_date_str,
-        'title': 'Trip Report',
-        'trip_data_for_js': trip_data_for_js,
+        'title': 'Trip Report'
     }
     return render(request, 'reports/trip_report.html', context)
-
 
 @login_required
 def generate_bill_view(request, pk):
