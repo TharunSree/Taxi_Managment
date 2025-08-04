@@ -164,3 +164,13 @@ LOGGING = {
         },
     },
 }
+
+# Set the session cookie to expire after 15 minutes (15 * 60 seconds).
+SESSION_COOKIE_AGE = 900
+
+# Ensure the session cookie is deleted when the user closes their browser.
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Update the session on every single request. This is key for the idle timer,
+# as it resets the 15-minute countdown every time the user clicks a link.
+SESSION_SAVE_EVERY_REQUEST = True
