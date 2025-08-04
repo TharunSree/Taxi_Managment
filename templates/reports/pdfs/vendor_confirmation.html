@@ -43,6 +43,11 @@
                 <th>Advance Paid to You</th>
                 <td>₹{{ trip.vendor_advance|floatformat:2|default:"0.00" }}</td>
             </tr>
+            <tr>
+                <th>Payment Mode</th>
+                <td>₹{{ trip.vendor_payment_option|floatformat:2|default:"0.00" }}</td>
+            </tr>
         </table>
     </div>
 {% endblock %}
+

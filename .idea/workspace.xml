@@ -4,13 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2e8532d-4fb6-4584-98eb-a4931dc36ec8" name="Changes" comment="Enhance admin password reset form with validation hints and update model ordering">
-      <change afterPath="$PROJECT_DIR$/templates/authentication/session_timed_out.html" afterDir="false" />
+    <list default="true" id="d2e8532d-4fb6-4584-98eb-a4931dc36ec8" name="Changes" comment="Refactor trip confirmation and work order templates to use a shared PDF base layout">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Taxi_Managment/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Taxi_Managment/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authentication/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/authentication/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authentication/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/authentication/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/reports/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/reports/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/authentication/session_timed_out.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/authentication/session_timed_out.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/reports/pdfs/customer_confirmation.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/reports/pdfs/customer_confirmation.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/reports/pdfs/vendor_confirmation.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/reports/pdfs/vendor_confirmation.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trips/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/trips/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trips/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/trips/models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +35,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="test2" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -71,7 +74,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
     "django.template.preview.state": "SHOW_EDITOR",
-    "git-widget-placeholder": "#8 on test2",
+    "git-widget-placeholder": "test3",
     "last_opened_file_path": "D:/Taxi_Managment/templates",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -141,7 +144,7 @@
       <workItem from="1754301105925" duration="2017000" />
       <workItem from="1754322635688" duration="728000" />
       <workItem from="1754323426578" duration="2226000" />
-      <workItem from="1754333838317" duration="191000" />
+      <workItem from="1754333838317" duration="2349000" />
     </task>
     <task id="LOCAL-00001" summary="Add URL routing and forms for various features including users, vendors, vehicles, and trips">
       <option name="closed" value="true" />
@@ -223,7 +226,23 @@
       <option name="project" value="LOCAL" />
       <updated>1754325379892</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Add session timeout handling and create session timeout page">
+      <option name="closed" value="true" />
+      <created>1754334047904</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1754334047904</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Refactor trip confirmation and work order templates to use a shared PDF base layout">
+      <option name="closed" value="true" />
+      <created>1754334530062</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1754334530062</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -235,7 +254,9 @@
     <MESSAGE value="Add PDF generation for customer and vendor trip confirmations" />
     <MESSAGE value="Add admin password reset functionality and user profile view" />
     <MESSAGE value="Enhance admin password reset form with validation hints and update model ordering" />
-    <option name="LAST_COMMIT_MESSAGE" value="Enhance admin password reset form with validation hints and update model ordering" />
+    <MESSAGE value="Add session timeout handling and create session timeout page" />
+    <MESSAGE value="Refactor trip confirmation and work order templates to use a shared PDF base layout" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor trip confirmation and work order templates to use a shared PDF base layout" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
