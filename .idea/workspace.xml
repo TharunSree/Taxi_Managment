@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2e8532d-4fb6-4584-98eb-a4931dc36ec8" name="Changes" comment="Add admin password reset functionality and user profile view">
+    <list default="true" id="d2e8532d-4fb6-4584-98eb-a4931dc36ec8" name="Changes" comment="Enhance admin password reset form with validation hints and update model ordering">
+      <change afterPath="$PROJECT_DIR$/templates/authentication/session_timed_out.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/customers/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/customers/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/authentication/admin_password_reset_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/authentication/admin_password_reset_form.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicles/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/vehicles/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendors/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/vendors/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Taxi_Managment/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Taxi_Managment/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/authentication/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/authentication/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +71,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
     "django.template.preview.state": "SHOW_EDITOR",
-    "git-widget-placeholder": "test2",
+    "git-widget-placeholder": "#8 on test2",
     "last_opened_file_path": "D:/Taxi_Managment/templates",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -139,7 +140,8 @@
       <workItem from="1754250436185" duration="7680000" />
       <workItem from="1754301105925" duration="2017000" />
       <workItem from="1754322635688" duration="728000" />
-      <workItem from="1754323426578" duration="1680000" />
+      <workItem from="1754323426578" duration="2226000" />
+      <workItem from="1754333838317" duration="191000" />
     </task>
     <task id="LOCAL-00001" summary="Add URL routing and forms for various features including users, vendors, vehicles, and trips">
       <option name="closed" value="true" />
@@ -205,7 +207,23 @@
       <option name="project" value="LOCAL" />
       <updated>1754324675399</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Enhance admin password reset form with validation hints and update model ordering">
+      <option name="closed" value="true" />
+      <created>1754325147272</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1754325147272</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Enhance admin password reset form with validation hints and update model ordering">
+      <option name="closed" value="true" />
+      <created>1754325379892</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1754325379892</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -216,7 +234,8 @@
     <MESSAGE value="Add initial migrations and models for site configuration, customers, trips, vehicles, and vendors" />
     <MESSAGE value="Add PDF generation for customer and vendor trip confirmations" />
     <MESSAGE value="Add admin password reset functionality and user profile view" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add admin password reset functionality and user profile view" />
+    <MESSAGE value="Enhance admin password reset form with validation hints and update model ordering" />
+    <option name="LAST_COMMIT_MESSAGE" value="Enhance admin password reset form with validation hints and update model ordering" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

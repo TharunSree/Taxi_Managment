@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}Session Timed Out{% endblock title %}
+
+{% block body_attribute %}class="authentication-bg"{% endblock body_attribute %}
+
+{% block content %}
+<div class="account-pages pt-2 pt-sm-5 pb-4 pb-sm-5">
+     <div class="container">
+          <div class="row justify-content-center">
+               <div class="col-xl-5">
+                    <div class="card auth-card">
+                         <div class="card-body p-5">
+                              <div class="text-center">
+                                   <h2 class="fw-bold text-uppercase fs-18">Session Timed Out</h2>
+                                   <p class="text-muted mt-3">For your security, you have been logged out due to inactivity.</p>
+                                   <a href="{% url 'login' %}" class="btn btn-primary mt-3">Log In Again</a>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </div>
+</div>
+{% endblock content %}</title>
+</head>
+<body>
+
+</body>
+</html>

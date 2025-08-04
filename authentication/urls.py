@@ -8,4 +8,5 @@ urlpatterns = [
     path('users/<int:pk>/delete/', views.user_delete_view, name='user_delete'),
     path('users/<int:pk>/reset-password/', views.admin_reset_password_view, name='admin_reset_password'),
     path('profile/', views.profile_view, name='profile'),
+    path('session-timed-out/', views.session_timed_out_view, name='session_timed_out'),
 ]
