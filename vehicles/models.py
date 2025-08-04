@@ -27,4 +27,4 @@ class Vehicle(models.Model):
         return f"{self.number} - {self.type} ({self.vendor.name})"
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ['-make']

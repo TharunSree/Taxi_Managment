@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2e8532d-4fb6-4584-98eb-a4931dc36ec8" name="Changes" comment="Add PDF generation for customer and vendor trip confirmations">
+    <list default="true" id="d2e8532d-4fb6-4584-98eb-a4931dc36ec8" name="Changes" comment="Add admin password reset functionality and user profile view">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/reports/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/reports/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/customers/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/customers/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/authentication/admin_password_reset_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/authentication/admin_password_reset_form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vehicles/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/vehicles/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendors/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/vendors/models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +29,13 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -52,27 +60,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;Django Server.Taxi_Managment.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
-    &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Taxi_Managment/templates&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Django Server.Taxi_Managment.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
+    "django.template.preview.state": "SHOW_EDITOR",
+    "git-widget-placeholder": "test2",
+    "last_opened_file_path": "D:/Taxi_Managment/templates",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "terminal",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Taxi_Managment\templates" />
@@ -131,6 +139,7 @@
       <workItem from="1754250436185" duration="7680000" />
       <workItem from="1754301105925" duration="2017000" />
       <workItem from="1754322635688" duration="728000" />
+      <workItem from="1754323426578" duration="1680000" />
     </task>
     <task id="LOCAL-00001" summary="Add URL routing and forms for various features including users, vendors, vehicles, and trips">
       <option name="closed" value="true" />
@@ -172,7 +181,31 @@
       <option name="project" value="LOCAL" />
       <updated>1754255704006</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Add admin password reset functionality and user profile view">
+      <option name="closed" value="true" />
+      <created>1754323492902</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1754323492902</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Add admin password reset functionality and user profile view">
+      <option name="closed" value="true" />
+      <created>1754324189376</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1754324189376</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Add admin password reset functionality and user profile view">
+      <option name="closed" value="true" />
+      <created>1754324675399</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1754324675399</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -182,7 +215,8 @@
     <MESSAGE value="Add URL routing and forms for various features including users, vendors, vehicles, and trips" />
     <MESSAGE value="Add initial migrations and models for site configuration, customers, trips, vehicles, and vendors" />
     <MESSAGE value="Add PDF generation for customer and vendor trip confirmations" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add PDF generation for customer and vendor trip confirmations" />
+    <MESSAGE value="Add admin password reset functionality and user profile view" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add admin password reset functionality and user profile view" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
