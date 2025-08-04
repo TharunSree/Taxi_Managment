@@ -64,7 +64,7 @@
                                             </small>
                                         </td>
                                         <td class="text-end">₹{{ base_price|floatformat:2 }}</td>
-                                        <td class="text-end">{{ trip.get_customer_payment_option_display|default:"Not specified" }}</td>
+                                        <td class="text-end">{{ trip.get_final_payment_option_display|default:"Not specified" }}</td>
                                     </tr>
                                     {% if trip.additional_distance > 0 %}
                                     <tr>
