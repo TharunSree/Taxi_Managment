@@ -45,7 +45,7 @@
             </tr>
             <tr>
                 <th>Payment Mode</th>
-                <td>₹{{ trip.vendor_payment_option|floatformat:2|default:"0.00" }}</td>
+                <td>₹{{ trip.vendor_payment_option|default:"Not specified" }}</td>
             </tr>
         </table>
     </div>
