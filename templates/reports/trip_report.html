@@ -67,7 +67,7 @@
                         </div>
 
                         <div id="table-pagination">
-                            <table>
+                            <table  class="table table-hover table-centered">
                                 <thead class="table-light">
                                 <tr>
                                     <th>Trip ID</th>
@@ -109,4 +109,10 @@
             </div>
         </div>
     </div>
+{% block javascript %}
+<script src="assets/vendor/gridjs/gridjs.umd.js"></script>
+
+    <!-- Gridjs Demo js -->
+    <script src="assets/js/components/table-gridjs.js"></script>
+{% endblock javascript %}
 {% endblock page_content %}
