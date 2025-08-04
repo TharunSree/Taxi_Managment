@@ -1,6 +1,6 @@
 {% extends "vertical.html" %}
 
-{% block title %}{{title}}{% endblock title %}
+{% block title %}{{ title }}{% endblock title %}
 
 {% block page_content %}
     {% include "partials/page-title.html" with title="Reports" subtitle="Trip Report" %}
@@ -13,14 +13,16 @@
                     <form method="get" class="row gy-2 gx-2 align-items-center">
                         <div class="col-xl-4 col-md-6">
                             <label for="start_date" class="form-label">Start Date</label>
-                            <input type="date" class="form-control" name="start_date" id="start_date" value="{{ start_date }}">
+                            <input type="date" class="form-control" name="start_date" id="start_date"
+                                   value="{{ start_date }}">
                         </div>
                         <div class="col-xl-4 col-md-6">
                             <label for="end_date" class="form-label">End Date</label>
-                            <input type="date" class="form-control" name="end_date" id="end_date" value="{{ end_date }}">
+                            <input type="date" class="form-control" name="end_date" id="end_date"
+                                   value="{{ end_date }}">
                         </div>
                         <div class="col-auto">
-                             <label class="form-label" style="visibility: hidden;">Filter</label>
+                            <label class="form-label" style="visibility: hidden;">Filter</label>
                             <button type="submit" class="btn btn-primary d-block">Filter</button>
                         </div>
                     </form>
@@ -34,65 +36,74 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Report Results</h4>
-                    {% if page_obj %}
-                    <div class="row mb-3 text-center">
-                        <div class="col-md-3"><div class="card card-body bg-light"><p class="text-muted mb-2">Total Trips</p><h3 class="mb-0">{{ summary.total_trips }}</h3></div></div>
-                        <div class="col-md-3"><div class="card card-body bg-light"><p class="text-muted mb-2">Gross Revenue</p><h3 class="mb-0">₹{{ summary.total_revenue|floatformat:2|default:"0.00" }}</h3></div></div>
-                        <div class="col-md-3"><div class="card card-body bg-light"><p class="text-muted mb-2">Total Advance Paid</p><h3 class="mb-0">₹{{ summary.total_advance|floatformat:2|default:"0.00" }}</h3></div></div>
-                        <div class="col-md-3"><div class="card card-body bg-primary-subtle text-primary"><p class="mb-2"><strong>Agent Revenue</strong></p><h3 class="mb-0"><strong>₹{{ summary.total_agent_revenue|floatformat:2|default:"0.00" }}</strong></h3></div></div>
-                    </div>
+                    {% if trips %}
+                        <div class="row mb-3 text-center">
+                            <div class="col-md-3">
+                                <div class="card card-body bg-light">
+                                    <p class="text-muted mb-2">Total Trips</p>
+                                    <h3 class="mb-0">{{ summary.total_trips }}</h3>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card card-body bg-light">
+                                    <p class="text-muted mb-2">Gross Revenue</p>
+                                    <h3 class="mb-0">₹{{ summary.total_revenue|floatformat:2|default:"0.00" }}</h3>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card card-body bg-light">
+                                    <p class="text-muted mb-2">Total Advance Paid</p>
+                                    <h3 class="mb-0">₹{{ summary.total_advance|floatformat:2|default:"0.00" }}</h3>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card card-body bg-primary-subtle text-primary">
+                                    <p class="mb-2"><strong>Agent Revenue</strong></p>
+                                    <h3 class="mb-0">
+                                        <strong>₹{{ summary.total_agent_revenue|floatformat:2|default:"0.00" }}</strong>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="table-responsive">
-                        <table class="table table-hover table-centered">
-                            <thead class="table-light">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-centered">
+                                <thead class="table-light">
                                 <tr>
                                     <th>Trip ID</th>
                                     <th>Customer</th>
                                     <th>Vehicle</th>
                                     <th>Trip Date</th>
                                     <th>Status</th>
-                                    <th class="text-end">Total Price</th>
+                                    <th>Advance From Customer</th>
+                                    <th>Vendor's Charge</th>
+                                    <th>Advance Paid to Vendor</th>
+                                    <th>Total Price</th>
+                                    <th class="text-end">Agent Revenue</th>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {% for trip in page_obj %}
-                                <tr>
-                                    <td>#{{ trip.id }}</td>
-                                    <td>{{ trip.customer.name }}</td>
-                                    <td>{{ trip.vehicle }}</td>
-                                    <td>{{ trip.trip_date|date:"d M Y, P" }}</td>
-                                    <td><span class="badge bg-success-subtle text-success">{{ trip.get_status_display }}</span></td>
-                                    <td class="text-end">₹{{ trip.total_price|floatformat:2 }}</td>
-                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for trip in trips %}
+                                    <tr>
+                                        <td>#{{ trip.id }}</td>
+                                        <td>{{ trip.customer.name }}</td>
+                                        <td>{{ trip.vehicle }}</td>
+                                        <td>{{ trip.trip_date|date:"d M Y, P" }}</td>
+                                        <td><span
+                                                class="badge bg-success-subtle text-success">{{ trip.get_status_display }}</span>
+                                        </td>
+                                        <td>₹{{ trip.advance_paid|default:0|floatformat:2}}</td>
+                                        <td>₹{{ trip.vendor_price|default:0|floatformat:2}}</td>
+                                        <td>₹{{ trip.vendor_advance|default:0|floatformat:2}}</td>
+                                        <td>₹{{ trip.total_price|default:0|floatformat:2 }}</td>
+                                        <td class="text-end">₹{{ trip.agent_revenue|default:0|floatformat:2|floatformat:"2" }}</td>
+                                    </tr>
                                 {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination justify-content-end mt-4">
-                            {% if page_obj.has_previous %}
-                                <li class="page-item"><a class="page-link" href="?page=1&start_date={{ start_date }}&end_date={{ end_date }}">&laquo; First</a></li>
-                                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}&start_date={{ start_date }}&end_date={{ end_date }}">Previous</a></li>
-                            {% else %}
-                                <li class="page-item disabled"><span class="page-link">&laquo; First</span></li>
-                                <li class="page-item disabled"><span class="page-link">Previous</span></li>
-                            {% endif %}
-                    
-                            <li class="page-item active" aria-current="page"><span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
-                    
-                            {% if page_obj.has_next %}
-                                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}&start_date={{ start_date }}&end_date={{ end_date }}">Next</a></li>
-                                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}&start_date={{ start_date }}&end_date={{ end_date }}">Last &raquo;</a></li>
-                            {% else %}
-                                <li class="page-item disabled"><span class="page-link">Next</span></li>
-                                <li class="page-item disabled"><span class="page-link">Last &raquo;</span></li>
-                            {% endif %}
-                        </ul>
-                    </nav>
-
+                                </tbody>
+                            </table>
+                        </div>
                     {% else %}
-                    <p class="text-center">No trips found for the selected criteria. Please adjust your filters.</p>
+                        <p class="text-center">No trips found for the selected criteria. Please adjust your filters.</p>
                     {% endif %}
                 </div>
             </div>
