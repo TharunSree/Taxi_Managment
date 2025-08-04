@@ -1,32 +1,47 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Trip Confirmation #{{ trip.id }}</title>
-    <style>
-        body { font-family: sans-serif; font-size: 14px; color: #333; }
-        .container { width: 90%; margin: auto; }
-        .header { text-align: center; border-bottom: 2px solid #0a2d5c; padding-bottom: 10px; }
-        h1 { color: #0a2d5c; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header"><h1>Gmini Tours - Trip Confirmation</h1></div>
-        <p><strong>Dear {{ trip.customer.name }},</strong></p>
-        <p>This document confirms the details of your upcoming trip.</p>
+{% extends 'reports/pdfs/pdf_base.html' %}
+
+{% block title %}Trip Confirmation #{{ trip.id }}{% endblock %}
+{% block doc_title %}Trip Confirmation{% endblock %}
+
+{% block content %}
+    <div class="details-section">
+        <h3>Customer Details</h3>
+        <p>
+            <strong>Name:</strong> {{ trip.customer.name }}<br>
+            <strong>Phone:</strong> {{ trip.customer.phone }}<br>
+            <strong>Address:</strong> {{ trip.customer.address|default:"Not provided" }}
+        </p>
+    </div>
+
+    <div class="details-section">
+        <h3>Trip Details</h3>
         <table>
-            <tr><th>Trip ID</th><td>#{{ trip.id }}</td></tr>
-            <tr><th>Date & Time</th><td>{{ trip.trip_date|date:"l, F j, Y, g:i A" }}</td></tr>
-            <tr><th>From Location</th><td>{{ trip.customer.from_location }}</td></tr>
-            <tr><th>To Location</th><td>{{ trip.customer.to_location }}</td></tr>
-            <tr><th>Vehicle</th><td>{{ trip.vehicle.make }} {{ trip.vehicle.model }} ({{ trip.vehicle.number }})</td></tr>
-            <tr><th>Total Price</th><td>₹{{ trip.total_price|floatformat:2 }}</td></tr>
-            <tr><th>Advance Paid</th><td>₹{{ trip.advance_paid|floatformat:2 }}</td></tr>
+            <tr>
+                <th style="width: 30%;">Trip ID</th>
+                <td>#{{ trip.id }}</td>
+            </tr>
+            <tr>
+                <th>Date & Time</th>
+                <td>{{ trip.trip_date|date:"l, F j, Y, g:i A" }}</td>
+            </tr>
+            <tr>
+                <th>Route</th>
+                <td>From <strong>{{ trip.customer.from_location }}</strong> to <strong>{{ trip.customer.to_location }}</strong></td>
+            </tr>
+            <tr>
+                <th>Vehicle</th>
+                <td>{{ trip.vehicle.make }} {{ trip.vehicle.model }} ({{ trip.vehicle.number }}) - {{ trip.vehicle.get_type_display }}</td>
+            </tr>
+            <tr>
+                <th>Total Price</th>
+                <td><strong>₹{{ trip.total_price|floatformat:2 }}</strong></td>
+            </tr>
+             <tr>
+                <th>Advance Paid</th>
+                <td>₹{{ trip.advance_paid|floatformat:2 }}</td>
+            </tr>
         </table>
     </div>
-</body>
-</html>
+
+    <p>Thank you for choosing Gmini Tours! We look forward to serving you.</p>
+{% endblock %}
